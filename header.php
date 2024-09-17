@@ -35,7 +35,7 @@ if(is_front_page()):
       
       }"
        @click.away="mobileMenuIsOpen = false"
-      :class="{ 'bg-green-50 dark:bg-green-950/75 dark:text-white border-0 rounded-none shadow-md h-max border-white/80 bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200': atTop, 'text-white' : !atTop }"
+      :class="{ 'bg-slate-50 dark:bg-green-950/75 dark:text-white border-0 rounded-none shadow-md h-max border-white/80 bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200': atTop, 'text-white' : !atTop }"
       class=" flex items-center justify-between w-full max-w-full px-4 py-3   lg:px-4 lg:py-5">
       <div class="flex items-center justify-between w-full lg:w-4/5 mx-auto">
       <!-- Brand Logo -->
