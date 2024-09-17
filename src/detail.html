@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./output.css" rel="stylesheet">
+  <title>Template</title>
+  <!-- Alpine Plugins -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+  <!-- Alpine Core -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-slate-50 dark:bg-neutral-900">
+  
+    <header x-data="{ atTop: false }" class="sticky top-0 z-20 block w-full" @scroll.window="atTop = (window.pageYOffset < 50) ? false: true">
+      <nav x-data="{ 
+        mobileMenuIsOpen: false,
+        menu:[
+        {
+          title:'Pages',
+          url:'#',
+          current:true
+        },
+        {
+          title:'Account',
+          url:'#',
+          current:false
+        },
+        {
+          title:'Blog',
+          url:'#',
+          current:false
+        },
+        {
+          title:'Docs',
+          url:'#',
+          current:false
+        },
+        ],
+      
+      }"
+       @click.away="mobileMenuIsOpen = false"
+      :class="{ 'bg-slate-100 dark:bg-neutral-900/75 dark:text-white border-0 rounded-none shadow-md h-max border-white/80 bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200': true, '' : !atTop }"
+      class="flex items-center justify-between w-full max-w-full px-4 py-3   lg:px-4 lg:py-5">
+      <div class="flex items-center justify-between w-full lg:w-4/5 mx-auto">
+      <!-- Brand Logo -->
+      <a href="#" class="text-xl font-medium">
+        <span>Sahabat Yamima</span>
+        <!-- <img src="./your-logo.svg" alt="brand logo" class="w-10" /> -->
+      </a>
+      <!-- Desktop Menu -->
+      <ul class="hidden items-center gap-4 sm:flex">
+        <template x-for="item in menu">
+          <li><a :href="item.url" x-text="item.title" x-bind:class="{
+            '': !atTop,
+            'text-neutral-900 dark:text-white dark:hover:text-white': atTop,
+            'font-normal': !item.current,
+            'font-medium': item.current,
+          }" class="  underline-offset-2 hover:text-black focus:outline-none focus:underline text-base " ></a></li>
+        </template>
+        <!-- CTA Button -->
+        <li>
+          <!-- <a href="#" class="rounded-md bg-black px-4 py-2 text-center text-sm font-medium tracking-wide text-neutral-100 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:opacity-100 active:outline-offset-0 dark:bg-white dark:text-black dark:focus-visible:outline-white">Sign Up</a> -->
+          <div class="border rounded-full p-1 flex " 
+          :class="{ 'bg-neutral-200 dark:bg-neutral-900' : !atTop, '' : atTop, }">
+            <button x-data
+                    @click="$store.darkMode.light()"
+                    class="rounded-full h-6 w-6 
+                           text-gray-500 hover:text-gray-900 dark:hover:text-gray-300 
+                           hover:bg-gray-100 dark:hover:bg-gray-700 
+                           flex items-center justify-center 
+                           focus:outline-none"
+                    :class="$store.darkMode.mode == 'light' ? 'bg-gray-100 text-gray-900' : ''"
+            >
+                <svg name="Light Mode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="h-5 w-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"></path>
+              </svg>
+            </button>
+            <!-- <button x-data
+                    @click="$store.darkMode.system()"
+                    class="rounded-full h-8 w-8 
+                           text-gray-500 hover:text-gray-900 dark:hover:text-gray-300 
+                           hover:bg-gray-100 dark:hover:bg-gray-700 
+                           flex items-center justify-center 
+                           focus:outline-none"
+                    :class="$store.darkMode.mode == 'system' ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-300' : ''"
+            >
+              <span class="text-base material-symbols-outlined">desktop_windows</span>
+            </button> -->
+            <button x-data
+                    @click="$store.darkMode.dark()"
+                    class="rounded-full h-6 w-6
+                           text-gray-500 hover:text-gray-900 dark:hover:text-gray-300 
+                           hover:bg-gray-100 dark:hover:bg-gray-700 
+                           flex items-center justify-center 
+                           focus:outline-none"
+                    :class="$store.darkMode.mode == 'dark' ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-300' : ''"
+                     >
+                <svg x-show="!$store.darkMode.on" name="Dark Mode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="h-5 w-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"></path>
+                </svg>
+    
+            </button>
+          </div>
+        </li>
+      </ul>
+      
+      <!-- Mobile Menu Button -->
+      <button @click="mobileMenuIsOpen = !mobileMenuIsOpen" :aria-expanded="mobileMenuIsOpen" :class="mobileMenuIsOpen ? 'fixed top-6 right-6 z-20 text-slate-900/75 dark:text-white' : null" 
+      :class="atTop && mobileMenuIsOpen ? 'text-slate-900/75 dark:text-white':'' "
+      type="button" class="flex sm:hidden" aria-label="mobile menu" aria-controls="mobileMenu">
+        <svg x-cloak x-show="!mobileMenuIsOpen" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+        <svg x-cloak x-show="mobileMenuIsOpen" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <!-- Mobile Menu -->
+      <ul x-cloak x-show="mobileMenuIsOpen" x-transition:enter="transition motion-reduce:transition-none ease-out duration-300" x-transition:enter-start="-translate-y-full" x-transition:enter-end="translate-y-0" x-transition:leave="transition motion-reduce:transition-none ease-out duration-300" x-transition:leave-start="translate-y-0" x-transition:leave-end="-translate-y-full" id="mobileMenu" class="fixed max-h-svh overflow-y-auto inset-x-0 top-0 z-10 flex flex-col divide-y divide-neutral-300 rounded-b-md border-b border-neutral-300  px-6 pb-6 pt-20 dark:divide-neutral-700 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 sm:hidden">
+        <li class="flex justify-left -mt-14 mb-4">
+          <div class="border rounded-full p-1 flex " 
+          :class="{ 'bg-neutral-200 dark:bg-neutral-900' : !atTop, '' : atTop, }">
+            <button x-data
+                    @click="$store.darkMode.light()"
+                    class="rounded-full h-6 w-6 
+                           text-gray-500 hover:text-gray-900 dark:hover:text-gray-300 
+                           hover:bg-gray-100 dark:hover:bg-gray-700 
+                           flex items-center justify-center 
+                           focus:outline-none"
+                    :class="$store.darkMode.mode == 'light' ? 'bg-gray-100 text-gray-900' : ''"
+            >
+                <svg name="Light Mode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="h-5 w-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"></path>
+              </svg>
+            </button>
+
+            <button x-data
+                    @click="$store.darkMode.dark()"
+                    class="rounded-full h-6 w-6
+                           text-gray-500 hover:text-gray-900 dark:hover:text-gray-300 
+                           hover:bg-gray-100 dark:hover:bg-gray-700 
+                           flex items-center justify-center 
+                           focus:outline-none"
+                    :class="$store.darkMode.mode == 'dark' ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-300' : ''"
+                     >
+                <svg x-show="!$store.darkMode.on" name="Dark Mode" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="h-5 w-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"></path>
+                </svg>
+    
+            </button>
+          </div>
+         </li>
+        <template x-for="item in menu">
+          <li class="py-4"><a href="item.url" x-text="item.title" x-bind:class="{
+            'font-normal': !item.current,
+            'font-bold': item.current,
+          }" class="w-full  text-neutral-900 focus:underline dark:text-white text-base"></a></li>
+        </template>
+
+        <!-- CTA Button -->
+        <!-- <li class="mt-4 w-full border-none"><a href="#" class="rounded-md bg-black px-4 py-2 block text-center font-medium tracking-wide text-neutral-100 hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black active:opacity-100 active:outline-offset-0 dark:bg-white dark:text-black dark:focus-visible:outline-white">Sign Up</a></li> -->
+
+      </ul>
+      </div>  
+
+      </nav>
+      
+</header>
+<main class="flex flex-col justify-between sm:ml-auto sm:mr-auto h-full  border-0">
+
+
+<section class=" bg-neutral-50 text-neutral-600 dark:bg-neutral-900 dark:text-neutral-300 p-5">
+<div class="flex flex-row flex-wrap gap-5 justify-around w-full lg:w-5/6 mx-auto">
+  <div class="w-full lg:w-8/12">
+
+    <section x-data="{post:
+      {
+       title: 'AI-Powered VR Goggles Redefine Reality: Augmented Vision for Al',
+       img: {
+        src:'https://penguinui.s3.amazonaws.com/component-assets/card-img-4.webp',
+        alt:'a men wearing VR goggles'
+        },
+       url:'',
+       author:{name:'Jajatda', url:''},
+       category:'Artificial Intelligence',
+       post_date:'12 Seprember 2024 20.30 WIB',
+       content:`Experience the next level of augmented reality with smart
+       goggles integrating cutting-edge AI for seamless interaction
+       with the world around you.<br/>
+       Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim
+       labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi
+       animcupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est
+       aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia
+       pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit
+       commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa
+       proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia
+       eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim.
+       Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et
+       culpa duis.
+       `
+      }}" class="news">
+
+      <nav class="text-sm font-medium text-neutral-600 dark:text-neutral-300 mb-2" aria-label="breadcrumb">
+        <ol class="flex flex-wrap items-center gap-1">
+          <li class="flex items-center gap-1.5">
+            <a href="#" aira-label="home" class="hover:text-neutral-900 dark:hover:text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true" class="size-4">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" />
+              </svg>	
+            </a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true" stroke-width="2" stroke="currentColor" class="size-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </li>
+          <li class="flex items-center gap-1">
+            <a href="#" class="hover:text-neutral-900 dark:hover:text-white">Blog</a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true" stroke-width="2" stroke="currentColor" class="size-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </li>
+          <li class="flex items-center gap-1 font-bold text-neutral-900 dark:text-white" aria-current="page">Breadcrumb</li>
+        </ol>
+      </nav>
+     
+      <article class="flex flex-col max-w-full grid-cols-1 md:grid-cols-8 overflow-hidden border-0 border-neutral-300 bg-neutral-50 text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
+       <!-- header -->
+        <div class="border-b border-neutral-300 dark:border-neutral-700 mb-2">
+          <h3 class="text-pretty text-4xl font-bold text-neutral-900 lg:text-2xl dark:text-white " aria-describedby="articleDescription" x-text="post.title"></h3>
+          <div class="text-sm flex flex-row justify-center md:justify-between items-center flex-wrap mt-2 border-t border-neutral-300 dark:border-neutral-700">
+            <div class="flex flex-row flex-wrap justify-center md:justify-normal gap-x-2">
+              <p>Oleh: <span class="font-medium" x-text="post.author.name"></span></p>
+              
+              <p>Pada: <span class="font-medium" x-text="post.post_date"></span></p>
+              <p>Kategori: <span class="font-medium" x-text="post.category"></span> </p>
+            </div>
+            <ul class="flex flex-row items-center  gap-2 h-10 text-neutral-600 dark:text-neutral-300 mx-2 md:ml-auto">
+                    <li>
+                        <p>
+                            Bagikan:
+                      </p>
+                    </li>
+                    <li>
+                        <a href="https://api.whatsapp.com/send?phone=&amp;text={link}" target="popup" onclick="window.open('https://api.whatsapp.com/send?phone=&amp;text={link}?utm_source=WhatsApp&amp;utm_medium=Share_Widget','popup','width=600,height=600'); return false;">
+                          <span class="[&>svg]:h-5 [&>svg]:w-5">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="currentColor"
+                              viewBox="0 0 448 512">
+                              <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. -->
+                              <path
+                                d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
+                            </svg>
+                          </span>
+                        </a>
+                    </li>
+  
+                    <li>
+                        <a href="https://web.facebook.com/sharer.php?u={link}?utm_source=Facebook&amp;utm_medium=Share_Widget" target="popup" onclick="window.open('https://web.facebook.com/sharer.php?u={link}?utm_source=Facebook&amp;utm_medium=Share_Widget','popup','width=600,height=600'); return false;">
+                          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                              d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                              clip-rule="evenodd"></path>
+                          </svg>
+                        </a>
+                    </li>
+  
+                    <li>
+                        <a href="https://twitter.com/intent/tweet?url={link}?utm_source=Twitter&amp;utm_medium=Share_Widget" target="popup" onclick="window.open('https://twitter.com/intent/tweet?url={link}?utm_source=Twitter&amp;utm_medium=Share_Widget','popup','width=600,height=600'); return false;">
+                          <span class="[&>svg]:h-5 [&>svg]:w-5">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="currentColor"
+                              viewBox="0 0 512 512">
+                              <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. -->
+                              <path
+                                d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
+                            </svg>
+                          </span>
+                        </a>
+                    </li>
+  
+                    <li>
+                        <a href="https://telegram.me/share/url?url={link}?utm_source=Telegram&amp;utm_medium=Share_Widget " target="popup" onclick="window.open('https://telegram.me/share/url?url={link}?utm_source=Telegram&amp;utm_medium=Share_Widget','popup','width=600,height=600'); return false;">
+                          <span class="[&>svg]:h-5 [&>svg]:w-5">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="currentColor"
+                              viewBox="0 0 496 512">
+                              <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. -->
+                              <path
+                                d="M248 8C111 8 0 119 0 256S111 504 248 504 496 393 496 256 385 8 248 8zM363 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5q-3.3 .7-104.6 69.1-14.8 10.2-26.9 9.9c-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3q.8-6.7 18.5-13.7 108.4-47.2 144.6-62.3c68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9a10.5 10.5 0 0 1 3.5 6.7A43.8 43.8 0 0 1 363 176.7z" />
+                            </svg>
+                          </span>
+                          
+                        </a>
+                    </li>
+  
+            </ul>
+          </div>
+        </div>       
+
+        <!-- image -->
+        <div class="col-span-3 overflow-hidden aspect-video">
+            <img :src="post.img.src" class="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105" :alt="post.img.alt" />
+        </div>
+        <!-- body -->
+        <div class="flex flex-col justify-center col-span-5">
+            <p class=" text-pretty font-normal text-lg" x-html="post.content">
+            </p>
+        </div>
+        <!-- footer -->
+        <div class="w-full mt-10">
+        <!-- tags -->
+          <div x-data="{
+            categories:[
+            {
+              title:'Fiqh',
+              url:'',
+            },
+            {
+              title:'Aqidah',
+              url:'',
+            },
+            {
+              title:'Sirah Nabawiyah',
+              url:'',
+            },
+            {
+              title:'Tafsir',
+              url:'',
+            },
+            {
+              title:'Hadits',
+              url:'',
+            },
+            ],
+           }" class="flex flex-row flex-wrap justify-start gap-2 border-b border-t border-neutral-300 dark:border-neutral-700 py-2">
+           <span class="font-bold">Tags: </span>
+           <template x-for="item in categories">
+            <a :href="item.url" x-text="item.title" class="px-2 py-1 max-h-min font-normal text-sm  rounded-full bg-neutral-200 hover:bg-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600"></a>
+           </template>
+           </div>
+
+           <!-- Comments -->
+           <div class="">
+            
+           </div>
+
+        </div>
+        
+
+      </article>
+
+    
+
+    </section> 
+
+
+
+
+  </div>
+
+  <div class="block static lg:sticky top-20 h-full  w-full lg:w-3/12">
+    <div class="popular flex flex-col gap-2"
+    x-data="{popularPosts:[
+      {
+       title: 'AI-Powered VR Goggles Redefine Reality: Augmented Vision for Al',
+       img: {
+        src:'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+        alt:'Vibrant abstract painting with swirling blue and light pink hues on a canvas.'
+        },
+       url:'',
+       author:{name:'Jajatda', url:''},
+       category:'Artificial Intelligence',
+       excerpt:`Experience the next level of augmented reality with smart
+       goggles integrating cutting-edge AI for seamless interaction
+       with the world around you.`
+      },
+      {
+       title: 'AI-Powered VR Goggles Redefine Reality: Augmented Vision for Al',
+       img: {
+        src:'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+        alt:'Vibrant abstract painting with swirling blue and light pink hues on a canvas.'
+        },
+       url:'',
+       author:{name:'Jajatda', url:''},
+       category:'Artificial Intelligence',
+       excerpt:`Experience the next level of augmented reality with smart
+       goggles integrating cutting-edge AI for seamless interaction
+       with the world around you.`
+      },
+      {
+       title: 'AI-Powered VR Goggles Redefine Reality: Augmented Vision for Al',
+       img: {
+        src:'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+        alt:'Vibrant abstract painting with swirling blue and light pink hues on a canvas.'
+        },
+       url:'',
+       author:{name:'Jajatda', url:''},
+       category:'Artificial Intelligence',
+       excerpt:`Experience the next level of augmented reality with smart
+       goggles integrating cutting-edge AI for seamless interaction
+       with the world around you.`
+      },
+      {
+       title: 'AI-Powered VR Goggles Redefine Reality: Augmented Vision for Al',
+       img: {
+        src:'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+        alt:'Vibrant abstract painting with swirling blue and light pink hues on a canvas.'
+        },
+       url:'',
+       author:{name:'Jajatda', url:''},
+       category:'Artificial Intelligence',
+       excerpt:`Experience the next level of augmented reality with smart
+       goggles integrating cutting-edge AI for seamless interaction
+       with the world around you.`
+      },
+      {
+       title: 'AI-Powered VR Goggles Redefine Reality: Augmented Vision for Al',
+       img: {
+        src:'https://penguinui.s3.amazonaws.com/component-assets/carousel/default-slide-1.webp',
+        alt:'Vibrant abstract painting with swirling blue and light pink hues on a canvas.'
+        },
+       url:'',
+       author:{name:'Jajatda', url:''},
+       category:'Artificial Intelligence',
+       excerpt:`Experience the next level of augmented reality with smart
+       goggles integrating cutting-edge AI for seamless interaction
+       with the world around you.`
+      },
+ 
+      
+      ]}">
+          <!-- title -->
+          <div class="flex gap-2 overflow-x-auto w-full mx-auto p-1 border-b border-neutral-300 dark:border-neutral-700">
+            <h3 class="border-l-4 border-orange-600 dark:border-orange-600/75 pl-3 text-lg font-medium text-neutral-900 lg:text-xl dark:text-white">Populer</h3>
+          </div>
+    <!-- title -->
+
+    <template x-for="(post, index) in popularPosts">
+      <article class="group grid grid-cols-1 md:grid-cols-8 gap-2">
+        <div class="bg-slate-300  w-full col-span-1 md:col-span-3 overflow-hidden aspect-auto">
+          <img :src="post.img.src" :alt="post.img.alt" loading="lazy" class="w-full h-full">
+        </div>
+        <div class="col-span-1 md:col-span-5">
+          <h3 class=" text-lg font-medium text-neutral-900 lg:text-xs dark:text-white" aria-describedby="articleDescription" x-text="post.title">judul</h3>
+          <p class="text-xs" x-text="post.author.name">penulis</p>
+        </div>
+      </article>
+    </template>
+
+
+
+    </div>
+
+    <div class="categories gap-2 my-4">
+                <!-- title -->
+          <div class="flex gap-2 overflow-x-auto w-full mx-auto mb-2 p-1 border-b border-neutral-300 dark:border-neutral-700">
+            <h3 class="border-l-4 border-orange-600 dark:border-orange-600/75 pl-3 text-lg font-medium text-neutral-900 lg:text-xl dark:text-white">Kategori</h3>
+          </div>
+    <!-- title -->
+     <div x-data="{
+      categories:[
+      {
+        title:'Fiqh',
+        url:'',
+      },
+      {
+        title:'Aqidah',
+        url:'',
+      },
+      {
+        title:'Sirah Nabawiyah',
+        url:'',
+      },
+      {
+        title:'Tafsir',
+        url:'',
+      },
+      {
+        title:'Hadits',
+        url:'',
+      },
+      ],
+     }" class="flex flex-row flex-wrap justify-start gap-2">
+     <template x-for="item in categories">
+      <a :href="item.url" x-text="item.title" class="px-2 py-1 max-h-min font-normal text-sm  rounded-full bg-neutral-200 hover:bg-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600"></a>
+     </template>
+
+     </div>
+    </div>
+
+    
+    
+
+  </div>
+
+
+</section>
+
+
+<br>
+
+
+
+</main>
+    <footer x-data="{
+      logo:{
+        siteName: 'Sahabat Yamima',
+        url:'',
+        img: '',
+      },
+      menus:{
+        menu_1:{
+          title:'Product',
+          items:[
+          {
+            title:'Overview',
+            url:''
+          },
+          {
+            title:'Features',
+            url:''
+          },
+          {
+            title:'Solution',
+            url:''
+          },
+          {
+            title:'Tutorials',
+            url:''
+          },
+          ]
+        },
+        menu_2:{
+          title:'Company',
+          items:[
+          {
+            title:'About Us',
+            url:'#'
+          },
+          {
+            title:'Careers',
+            url:'#'
+          },
+          {
+            title:'Press',
+            url:'#'
+          },
+          {
+            title:'News',
+            url:'#'
+          },
+          ]
+        },
+        menu_3:{
+          title:'Resource',
+          items:[
+          {
+            title:'Blog',
+            url:'#'
+          },
+          {
+            title:'Newsletter',
+            url:'#'
+          },
+          {
+            title:'Events',
+            url:'#'
+          },
+          {
+            title:'Help Center',
+            url:'#'
+          },
+          ]
+        },
+        social:{
+          facebook:'https://facebook.com',
+          instagram:'https://instagram.com',
+          twitter:'https://x.com',
+          youtube:'https://youtube.com',
+        },
+      }
+    }"
+     class="mt-10 bg-slate-100  dark:bg-neutral-950/75 dark:text-white border-t-2 rounded-none h-max border-slate-200/80 dark:border-neutral-700/50 shadow-[4px_0_6px_-1px_rgba(0,0,0,0.1)] backdrop-blur-2xl backdrop-saturate-200 ">
+        <div class="lg:w-4/5 p-4 m-auto">
+            <footer class="relative w-full">
+                <div class="w-full px-8 mx-auto max-w-7xl">
+                  <div class="grid justify-between grid-cols-1 gap-4 md:grid-cols-2">
+                    <h5 x-text="logo.siteName" class="block text-center sm:text-left mb-6 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-inherit">
+                      
+                    </h5>
+                    <div class="flex flex-row flex-wrap justify-center text-center sm:text-left gap-10">
+                      <ul class="mx-3 md:mx-0">
+                        <p x-text="menus.menu_1.title"
+                          class="block mb-3 font-sans text-base antialiased font-medium leading-normal text-blue-gray-900 dark:text-white opacity-40">
+                        </p>
+                        <template x-for="item in menus.menu_1.items">
+                          <li>
+                          <a :href="item.url" x-text="item.title"
+                            class="block py-1.5 font-sans text-base font-normal leading-relaxed text-gray-700 dark:text-gray-200 antialiased transition-colors hover:text-blue-gray-900">
+                          </a>
+                        </li>
+                        </template>
+                      </ul>
+                      <ul class="mx-3 md:mx-0">
+                        <p x-text="menus.menu_2.title"
+                          class="block mb-3 font-sans text-base antialiased font-medium leading-normal text-blue-gray-900 dark:text-white opacity-40">
+                        </p>
+                        <template x-for="item in menus.menu_2.items">
+                          <li>
+                          <a :href="item.url" x-text="item.title"
+                            class="block py-1.5 font-sans text-base font-normal leading-relaxed text-gray-700 dark:text-gray-200 antialiased transition-colors hover:text-blue-gray-900">
+                          </a>
+                        </li>
+                        </template>
+                      </ul>
+                      <ul class="mx-3 md:mx-0">
+                        <p x-text="menus.menu_3.title"
+                          class="block mb-3 font-sans text-base antialiased font-medium leading-normal text-blue-gray-900 dark:text-white opacity-40">
+                        </p>
+                        <template x-for="item in menus.menu_3.items">
+                          <li>
+                          <a :href="item.url" x-text="item.title"
+                            class="block py-1.5 font-sans text-base font-normal leading-relaxed text-gray-700 dark:text-gray-200 antialiased transition-colors hover:text-blue-gray-900">
+                          </a>
+                        </li>
+                        </template>
+                      </ul>
+
+
+                    </div>
+                  </div>
+                  <div
+                    class="flex flex-col items-center justify-center w-full py-4 mt-12 border-t border-blue-gray-50 dark:border-neutral-700/80 md:flex-row md:justify-between">
+                    <p
+                      class="block mb-4 font-sans text-sm antialiased font-normal leading-normal text-center text-blue-gray-900 md:mb-0">
+                      © 2024
+                      <a :href="logo.url" x-text="logo.siteName"></a>. All
+                      Rights Reserved.
+                    </p>
+                    <div class="flex gap-4 text-blue-gray-900 sm:justify-center lg:justify-between">
+                      <a :href="menus.social.facebook"
+                        class="block font-sans text-base antialiased font-light leading-relaxed transition-opacity text-inherit opacity-80 hover:opacity-100">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path fill-rule="evenodd"
+                            d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                            clip-rule="evenodd"></path>
+                        </svg>
+                      </a>
+                      <a :href="menus.social.instagram"
+                        class="block font-sans text-base antialiased font-light leading-relaxed transition-opacity text-inherit opacity-80 hover:opacity-100">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path fill-rule="evenodd"
+                            d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
+                            clip-rule="evenodd"></path>
+                        </svg>
+                      </a>
+                      <a :href="menus.social.twitter"
+                        class="block font-sans text-base antialiased font-light leading-relaxed transition-opacity text-inherit opacity-80 hover:opacity-100">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path
+                            d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84">
+                          </path>
+                        </svg>
+                      </a>
+                      <a :href="menus.social.youtube"
+                        class="block font-sans text-base antialiased font-light leading-relaxed transition-opacity text-inherit opacity-80 hover:opacity-100">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="currentColor"
+                          viewBox="0 0 576 512">
+                          <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. -->
+                          <path
+                            d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z" />
+                        </svg>
+                      </a>
+
+                    </div>
+                  </div>
+                </div>
+              </footer>
+    </div>
+    </footer>
+
+
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+
+          Alpine.store('darkMode', {
+                mode: 'light',
+    
+                init() {
+                    if (localStorage.theme === 'dark') {
+                        this.dark()
+                    }
+                    else if (localStorage.theme === 'light') {
+                        this.light()
+                    }
+                    else {
+                        this.system()
+                    }
+                },
+    
+                dark() {
+                    document.documentElement.classList.add('dark')
+                    localStorage.theme = 'dark'
+                    this.mode = 'dark'
+                },
+                system() {
+                    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        document.documentElement.classList.add('dark')
+                    }
+                    else {
+                        document.documentElement.classList.remove('dark')
+                    }
+                    localStorage.theme = 'system'
+                    this.mode = 'system'
+                },
+                light() {
+                    document.documentElement.classList.remove('dark')
+                    localStorage.theme = 'light'
+                    this.mode = 'light'
+                }
+            }),
+
+
+
+        Alpine.data('carousel', (carouselData = {
+            slides: [],
+        },) => ({
+      // Sets the time between each slides in milliseconds
+      autoplayIntervalTime: 4000,
+      slides: carouselData.slides,            
+      currentSlideIndex: 1,
+      isPaused: false,
+      autoplayInterval: null,
+      touchStartX: null,
+      touchEndX: null,
+      swipeThreshold: 50,
+      previous() {                
+          if (this.currentSlideIndex > 1) {                    
+              this.currentSlideIndex = this.currentSlideIndex - 1                
+          } else {   
+              // If it's the first slide, go to the last slide           
+              this.currentSlideIndex = this.slides.length                
+          }            
+      },            
+      next() {                
+          if (this.currentSlideIndex < this.slides.length) {                    
+              this.currentSlideIndex = this.currentSlideIndex + 1                
+          } else {                 
+              // If it's the last slide, go to the first slide    
+              this.currentSlideIndex = 1                
+          }            
+      },    
+      autoplay() {
+          this.autoplayInterval = setInterval(() => {
+              if (! this.isPaused) {
+                  this.next()
+              }
+          }, this.autoplayIntervalTime)
+      },
+      // Updates interval time   
+      setAutoplayInterval(newIntervalTime) {
+          clearInterval(this.autoplayInterval)
+          this.autoplayIntervalTime = newIntervalTime
+          this.autoplay()
+      },
+      handleTouchStart(event) {
+        this.touchStartX = event.touches[0].clientX
+    },
+    handleTouchMove(event) {
+        this.touchEndX = event.touches[0].clientX
+    },
+    handleTouchEnd() {
+        if(this.touchEndX){
+            if (this.touchStartX - this.touchEndX > this.swipeThreshold) {
+                this.next()
+            }
+            if (this.touchStartX - this.touchEndX < -this.swipeThreshold) {
+                this.previous()
+            }
+            this.touchStartX = null
+            this.touchEndX = null
+        }
+    }, 
+  }))
+
+
+}) 
+    </script>
+</body>
+</html>
