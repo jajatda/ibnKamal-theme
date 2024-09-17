@@ -2900,6 +2900,14 @@ video {
     grid-column: span 5 / span 5;
   }
 
+  .md\:col-span-6 {
+    grid-column: span 6 / span 6;
+  }
+
+  .md\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+
   .md\:mx-0 {
     margin-left: 0px;
     margin-right: 0px;
@@ -3020,6 +3028,10 @@ video {
 
   .lg\:hidden {
     display: none;
+  }
+
+  .lg\:aspect-video {
+    aspect-ratio: 16 / 9;
   }
 
   .lg\:h-16 {

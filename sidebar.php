@@ -25,7 +25,12 @@
           echo "{'name': '$category->name', 'url': '".get_category_link($category->term_id)."'},";
         }
         ?>],
-        excerpt:`<?php echo htmlentities(get_the_excerpt()); ?>`
+        excerpt:`<?php 
+              if(has_excerpt()){
+                echo htmlentities(get_the_excerpt());
+              }else{
+                echo htmlentities(wp_trim_words(get_the_content(), 5), ENT_QUOTES); //18 htmlentities($value)
+              }?>`
         },
         
         <?php
@@ -44,16 +49,18 @@
 
     <template x-for="(post, index) in popularPosts">
       <article class="group grid grid-cols-1 md:grid-cols-8 gap-2">
-        <div class="bg-slate-300  w-full col-span-1 md:col-span-3 overflow-hidden aspect-square">
+        <div class="bg-slate-300  w-full col-span-1 md:col-span-2 lg:col-span-3 overflow-hidden aspect-square">
           <img :src="post.img.src" :alt="post.img.alt" loading="lazy" class="w-full h-full">
         </div>
-        <div class="col-span-1 md:col-span-5">
+        <div class="col-span-1 md:col-span-6 lg:col-span-5">
           <h3 class=" text-lg font-medium text-neutral-900 lg:text-xs dark:text-white" aria-describedby="articleDescription">
           <a :href="post.url"  x-text="post.title"></a>
           </h3>
           <!-- <p class="text-xs font-medium " x-text="post.author.name">penulis</p> -->
-          <!-- <small class="block font-medium text-xs" x-data='{category: post.category.map((item)=> ` <a href="${item.url}">${item.name}</a>`)}' x-html="category"></small> -->
-            <small id="articleDescription" class="block mb-2 text-pretty text-xs" x-html="post.time">
+          <small class="block font-medium text-xs my-2" x-data='{category: post.category.map((item)=> ` <a href="${item.url}">${item.name}</a>`)}' x-html="category"></small>
+          <small id="articleDescription" class=" block lg:hidden text-pretty text-sm" x-html="post.excerpt">
+          </small>  
+          <small id="articleDescription" class="block my-2 text-pretty text-xs" x-html="post.time">
             </small>
         </div>
       </article>

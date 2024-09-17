@@ -26,8 +26,8 @@ get_header();
               if(has_excerpt()){
                 echo htmlentities($slide->post_excerpt);
               }else{
-                echo htmlentities(wp_trim_words($slide->post_content, 20),ENT_QUOTES); //18 htmlentities($value)
-              }?>`.replace(/(?:\r\n|\r|\n)/g, '</br>'),           
+                echo htmlentities(wp_trim_words($slide->post_content, 20), ENT_QUOTES); //18 htmlentities($value)
+              }?>`           
           },
         <?php
         endforeach;
@@ -50,7 +50,7 @@ get_header();
                       <h3 class="w-full lg:w-[80%] text-balance text-2xl lg:text-3xl font-bold text-white" x-bind:aria-describedby="'slide' + (index + 1) + 'Description'">
                       <a :href="slide.link" x-text="slide.title"></a>
                       </h3>
-                      <p class="lg:w-1/2 w-full text-pretty text-sm text-neutral-300" x-text="slide.description" x-bind:id="'slide' + (index + 1) + 'Description'"></p>
+                      <p class="lg:w-1/2 w-full text-pretty text-sm text-neutral-300" x-html="slide.description" x-bind:id="'slide' + (index + 1) + 'Description'"></p>
                   </div>
   
                   <img class="absolute w-full h-full inset-0 object-cover text-neutral-600 dark:text-neutral-300" x-bind:src="slide.imgSrc" x-bind:alt="slide.imgAlt" loading="lazy" />
@@ -179,7 +179,12 @@ wp_reset_postdata(); ?>
         echo "{'name': '$category->name', 'url': '".get_category_link($category->term_id)."'},";
        }
        ?>],
-       excerpt:`<?php echo htmlentities(get_the_excerpt()); ?>`
+       excerpt:`<?php 
+              if(has_excerpt()){
+                echo htmlentities(get_the_excerpt());
+              }else{
+                echo htmlentities(wp_trim_words(get_the_content(), 8), ENT_QUOTES); //18 htmlentities($value)
+              }?>`
       },
       
       <?php
@@ -211,19 +216,21 @@ wp_reset_postdata(); ?>
             <article :class=" index == 0  ? 'grid grid-cols-1 md:grid-cols-8 lg:flex lg:flex-col  gap-2 col-span-2 lg:col-span-1 row-span-full w-full' : 'group grid grid-cols-1 md:grid-cols-8 gap-2 col-span-2 lg:col-span-1' " class="">
          <template x-if=" post.img.src != '' ">  
             <div x-bind:class="index == 0  ? 
-               'w-full overflow-hidden col-span-1 md:col-span-3 lg:col-span-1':
-               ' w-full col-span-1 md:col-span-3 overflow-hidden' " class="bg-slate-300 aspect-auto">
+               'w-full overflow-hidden col-span-1 md:col-span-2 lg:col-span-1':
+               ' w-full col-span-1 md:col-span-2 lg:col-span-3 overflow-hidden' " class="bg-slate-300 aspect-auto">
                 <img :src="post.img.src" :alt="post.img.alt" loading="lazy" class="w-full h-full object-cover transition duration-700 ease-out group-hover:scale-105">
               </div>
          </template>
               <div x-bind:class="
-              index == 0 ? 'gap-0 col-span-1 md:col-span-5 lg:col-span-1' : 'col-span-1 md:col-span-5'"
+              index == 0 ? 'gap-0 col-span-1 md:col-span-6 lg:col-span-1' : 'col-span-1 md:col-span-6 lg:col-span-5'"
               :class="{'col-span-full': !post.img.src, 'col-span-5': post.img.src}"
                class="">
                 <h3 :class=" index == 0 ? 'text-lg font-medium md:text-lg lg:text-2xl' : 'text-lg font-medium  lg:text-sm' " class="  text-neutral-900  dark:text-white" aria-describedby="articleDescription">
                     <a :href="post.url"  x-text="post.title"></a>
                 </h3>
-                <small class="text-xs" x-text="post.time"></small>
+                <small id="articleDescription" class=" text-pretty text-sm" x-html="post.excerpt">
+                </small>
+                <small class="block text-xs mt-2" x-text="post.time"></small>
               </div>
             </article>
           </template>
@@ -260,7 +267,12 @@ wp_reset_postdata(); ?>
         echo "{'name': '$category->name', 'url': '".get_category_link($category->term_id)."'},";
        }
        ?>],
-       excerpt:`<?php echo htmlentities(get_the_excerpt()); ?>`
+       excerpt:`<?php 
+              if(has_excerpt()){
+                echo htmlentities(get_the_excerpt());
+              }else{
+                echo htmlentities(wp_trim_words(get_the_content(), 8), ENT_QUOTES); //18 htmlentities($value)
+              }?>`
       },
       
       <?php
@@ -291,17 +303,19 @@ wp_reset_postdata(); ?>
                      'group grid grid-cols-1 md:grid-cols-8 gap-2' 
                      " class="">
                       <div x-bind:class="index == 0  ? 
-                       'bg-slate-300  w-full overflow-hidden col-span-1 md:col-span-3 lg:col-span-1 ':
-                       'bg-slate-300  w-full col-span-1 md:col-span-3 overflow-hidden' " class="aspect-video">
+                       'bg-slate-300  w-full overflow-hidden col-span-1 md:col-span-2 lg:col-span-1 ':
+                       'bg-slate-300  w-full col-span-1 md:col-span-2 lg:col-span-3 overflow-hidden' " class="aspect-auto">
                         <img :src="post.img.src" :alt="post.img.alt" loading="lazy" class="w-full h-full object-cover transition duration-700 ease-out group-hover:scale-105">
                       </div>
                       <div x-bind:class="
-                      index == 0 ? 'col-span-1 md:col-span-5 lg:col-span-1' : 'col-span-1 md:col-span-5'
+                      index == 0 ? 'col-span-1 md:col-span-6 lg:col-span-1' : 'col-span-1 md:col-span-6 lg:col-span-5'
                       " class="">
                         <h3 :class=" index == 0 ? 'text-xl font-medium text-neutral-900 md:text-lg lg:text-2xl dark:text-white' : ' text-lg font-medium text-neutral-900 lg:text-sm dark:text-white' " class="  text-neutral-900  dark:text-white" aria-describedby="articleDescription">
                             <a :href="post.url"  x-text="post.title"></a>
                         </h3>
-                        <small id="articleDescription" class="block mb-2 text-pretty text-xs" x-html="post.time">
+                        <small id="articleDescription" class=" text-pretty text-sm" x-html="post.excerpt">
+                        </small>
+                        <small id="articleDescription" class="block my-2 text-pretty text-xs" x-html="post.time">
                         </small>
                       </div>
                     </article>
@@ -332,7 +346,12 @@ wp_reset_postdata(); ?>
         echo "{'name': '$category->name', 'url': '".get_category_link($category->term_id)."'},";
        }
        ?>],
-       excerpt:`<?php echo htmlentities(get_the_excerpt()); ?>`
+       excerpt:`<?php 
+              if(has_excerpt()){
+                echo htmlentities(get_the_excerpt());
+              }else{
+                echo htmlentities(wp_trim_words(get_the_content(), 8), ENT_QUOTES); //18 htmlentities($value)
+              }?>`
       },
       
       <?php
@@ -363,17 +382,19 @@ wp_reset_postdata(); ?>
                      'group grid grid-cols-1 md:grid-cols-8 gap-2' 
                      " class="">
                       <div x-bind:class="index == 0  ? 
-                       'bg-slate-300  w-full overflow-hidden col-span-1 md:col-span-3 lg:col-span-1 ':
-                       'bg-slate-300  w-full col-span-1 md:col-span-3 overflow-hidden' " class="aspect-video">
+                       'bg-slate-300  w-full overflow-hidden col-span-1 md:col-span-2 lg:col-span-1 ':
+                       'bg-slate-300  w-full col-span-1 md:col-span-2 lg:col-span-3 overflow-hidden' " class="aspect-auto">
                         <img :src="post.img.src" :alt="post.img.alt" loading="lazy" class="w-full h-full object-cover transition duration-700 ease-out group-hover:scale-105">
                       </div>
                       <div x-bind:class="
-                      index == 0 ? 'col-span-1 md:col-span-5 lg:col-span-1' : 'col-span-1 md:col-span-5'
+                      index == 0 ? 'col-span-1 md:col-span-6 lg:col-span-1' : 'col-span-1 md:col-span-6 lg:col-span-5'
                       " class="">
                         <h3 :class=" index == 0 ? 'text-xl font-medium text-neutral-900 md:text-lg lg:text-2xl dark:text-white' : ' text-lg font-medium text-neutral-900 lg:text-sm dark:text-white' " class="  text-neutral-900  dark:text-white" aria-describedby="articleDescription">
                         <a :href="post.url"  x-text="post.title"></a>
                         </h3>
-                        <small id="articleDescription" class="block mb-2 text-pretty text-xs" x-html="post.time">
+                        <small id="articleDescription" class=" text-pretty text-sm" x-html="post.excerpt">
+                        </small>
+                        <small id="articleDescription" class="block my-2 text-pretty text-xs" x-html="post.time">
                         </small>
                         
                       </div>
