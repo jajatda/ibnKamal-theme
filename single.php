@@ -19,7 +19,7 @@ get_header();
         },
        url:`<?php the_permalink(); ?>`,
        time:`<?php the_time('d M Y'); ?>`,
-       author:{name:`<?php echo get_post_meta(get_the_ID(), 'post_views_count', true);//get_the_author(); ?>`, url:`<?php echo get_the_author_meta('user_url'); ?>`},
+       author:{name:`<?php echo get_the_author(); //get_post_meta(get_the_ID(), 'post_views_count', true);//get_the_author(); ?>`, url:`<?php echo get_the_author_meta('user_url'); ?>`},
         category:[<?php 
        foreach(get_the_category() as $category){
         echo "{name: `".htmlentities($category->name)."`, url: `".get_category_link($category->term_id)."`},";
