@@ -1,4 +1,4 @@
-<div class="block static lg:sticky top-20 h-full  w-full lg:w-3/12">
+<div class="block static lg:sticky <?php echo is_user_logged_in() ? 'top-28' : 'top-20'; ?> h-full  w-full lg:w-3/12">
     <div class="popular flex flex-col gap-2"
     x-data="{popularPosts:[
         <?php

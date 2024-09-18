@@ -10,6 +10,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
   <!-- Alpine Core -->
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <?php wp_head(); ?>
 </head>
 <body class="bg-neutral-50 dark:bg-neutral-900">
 
@@ -166,7 +167,7 @@ if(false):
 else:
 ?>
 
-<header x-data="{ atTop: false }" class="sticky top-0 z-20 block w-full" @scroll.window="atTop = (window.pageYOffset < 50) ? false: true">
+<header x-data="{ atTop: false }" class="sticky <?php echo is_user_logged_in() ? 'top-8' : 'top-0'; ?>  z-20 block w-full" @scroll.window="atTop = (window.pageYOffset < 50) ? false: true">
       <nav x-data="{ 
         mobileMenuIsOpen: false,
         siteName:'<?php bloginfo( 'name' ); ?>',
