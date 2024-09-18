@@ -19,7 +19,7 @@ get_header();
         },
        url:`<?php the_permalink(); ?>`,
        time:`<?php the_time('d M Y'); ?>`,
-       author:{name:`<?php echo get_the_author(); ?>`, url:`<?php echo get_the_author_meta('user_url'); ?>`},
+       author:{name:`<?php echo get_post_meta(get_the_ID(), 'post_views_count', true);//get_the_author(); ?>`, url:`<?php echo get_the_author_meta('user_url'); ?>`},
         category:[<?php 
        foreach(get_the_category() as $category){
         echo "{name: `".htmlentities($category->name)."`, url: `".get_category_link($category->term_id)."`},";
@@ -154,10 +154,10 @@ wp_reset_postdata(); ?>
         <!-- footer -->
         <div class="w-full mt-10">
         <!-- tags -->
-          <div class="flex flex-row flex-wrap justify-start gap-2 border-b border-t border-neutral-300 dark:border-neutral-700 py-2">
+          <div class="flex flex-row flex-wrap justify-start gap-2 border-b border-t border-neutral-300 dark:border-neutral-700 py-2 text-wrap whitespace-normal">
            <span class="font-bold">Tags: </span>
            <template x-for="item in post.tags">
-            <a :href="item.url" x-text="item.name" class="px-2 py-1 max-h-min font-normal text-sm  rounded-full bg-neutral-200 hover:bg-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600"></a>
+            <a :href="item.url" x-text="item.name" class="px-2 py-1 max-h-min font-normal text-sm text-wrap rounded-full bg-neutral-200 hover:bg-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600"></a>
            </template>
            </div>
 
