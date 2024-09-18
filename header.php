@@ -15,7 +15,7 @@
 
 <?php
 // if(is_front_page()):
-if(is_front_page()):
+if(false):
 ?>
 <header x-data="{ atTop: false }" class="fixed top-0 z-20 block w-full" @scroll.window="atTop = (window.pageYOffset < 50) ? false: true">
       <nav x-data="{ 
