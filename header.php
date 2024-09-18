@@ -167,7 +167,7 @@ if(false):
 else:
 ?>
 
-<header x-data="{ atTop: false }" class="sticky <?php echo is_user_logged_in() ? 'top-8' : 'top-0'; ?>  z-20 block w-full" @scroll.window="atTop = (window.pageYOffset < 50) ? false: true">
+<header x-data="{ atTop: false }" class="sticky <?php echo is_user_logged_in() ? 'max-sm:top-0 top-8' : 'top-0'; ?>  z-20 block w-full" @scroll.window="atTop = (window.pageYOffset < 50) ? false: true">
       <nav x-data="{ 
         mobileMenuIsOpen: false,
         siteName:'<?php bloginfo( 'name' ); ?>',

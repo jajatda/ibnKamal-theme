@@ -5,7 +5,7 @@
         $popularPosts  = new WP_Query(array(
             'posts_per_page' => 5,
             'meta_key' => 'post_views_count',
-            'orderby' => 'meta_value_num',
+            'orderby' => 'meta_value_num',// 'meta_value_num',
             'order' => 'DESC'
         ));
         while($popularPosts->have_posts()):
@@ -89,10 +89,12 @@
 
       ],
 
-     }" class="flex flex-row flex-wrap justify-center gap-2 overflow-hidden" :class="{'h-52': !catExpanded, '':catExpanded}">
-     <template x-for="item in categories">
-      <a :href="item.url" x-text="item.title" class="px-2 py-1 max-h-min font-normal text-xs  rounded-full bg-neutral-200 hover:bg-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600"></a>
-     </template>
+     }" class="text-justify leading-8 overflow-hidden break-words" :class="{'h-52': !catExpanded, '':catExpanded}">
+     
+      <template x-for="item in categories">
+        <a :href="item.url" x-text="item.title" class="px-2 py-1 mx-1 max-h-min font-normal text-xs  rounded-full bg-neutral-200 hover:bg-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600"></a>
+      </template>
+     
 
      </div>
      <div class="border-t border-slate-200/80 dark:border-neutral-700/50  ">

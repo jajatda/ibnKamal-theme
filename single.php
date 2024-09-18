@@ -153,13 +153,16 @@ wp_reset_postdata(); ?>
         </div>
         <!-- footer -->
         <div class="w-full mt-10">
-        <!-- tags -->
-          <div class="flex flex-row flex-wrap justify-start gap-2 border-b border-t border-neutral-300 dark:border-neutral-700 py-2 text-wrap whitespace-normal">
+        <!-- tags --><template x-if="post.tags.length > 0">
+          <div class="block border-b border-t border-neutral-300 dark:border-neutral-700 py-2 text-justify whitespace-normal">
            <span class="font-bold">Tags: </span>
-           <template x-for="item in post.tags">
-            <a :href="item.url" x-text="item.name" class="px-2 py-1 max-h-min font-normal text-sm text-wrap rounded-full bg-neutral-200 hover:bg-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600"></a>
-           </template>
+           
+            <template x-for="item in post.tags">
+              <a :href="item.url" before="#" after="," x-text="item.name" class="m-1 px-2 py-1 max-h-min font-normal text-wrap break-words before:content-[attr(before)] after:content-[attr(after)] hover:underline"></a>
+            </template>
+          
            </div>
+          </template>
 
            <!-- Comments -->
            <div class="">
