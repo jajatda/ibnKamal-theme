@@ -36,7 +36,7 @@ get_header();
       ?>               
           
   ],
-    })" x-init="autoplay" class="relative w-full lg:w-5/6 mx-auto overflow-hidden rounded-2xl rounded-br-2xl border">
+    })" x-init="autoplay" class="relative w-full lg:w-5/6 mx-auto overflow-hidden rounded-2xl rounded-br-2xl border border-b border-neutral-300 dark:border-neutral-700">
      
       <!-- slides -->
       <!-- Change min-h-[50svh] to your preferred height size -->
