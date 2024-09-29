@@ -1,7 +1,8 @@
 /*
 Theme Name: Ibn Kamal Theme
 */
-@import 'output.css';   
+/* @import 'output.css';    */
+@import 'tailwind.custom.css';   
 
 /* body {
     background: #21759b;

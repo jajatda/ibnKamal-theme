@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <link href="./output.css" rel="stylesheet"> -->
-<link rel="stylesheet" href="<?php echo esc_url( get_stylesheet_uri() ); ?>" type="text/css" />
   <title><?php wp_title( '|', true, 'right' ); ?></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="<?php echo esc_url( get_stylesheet_uri() ); ?>" type="text/css" />
+  <link rel="stylesheet" href="<?php echo esc_url( get_theme_file_uri('/assets/css/tailwind.custom.css') ); ?>" type="text/tailwindcss" />
+<script defer src="<?php echo esc_url( get_theme_file_uri('/assets/js/cdn.tailwind.config.js') ); ?>"></script>
   <!-- Alpine Plugins -->
   <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
   <!-- Alpine Core -->
